@@ -45,7 +45,7 @@ export function Newsletter({ dict }: { dict: Dictionary }) {
                   aria-describedby="newsletter-status"
                   className="h-12 w-full rounded-full border border-paper/25 bg-paper/10 px-5 text-paper placeholder:text-paper/50 focus-visible:border-caramel"
                 />
-                <Button type="submit" size="lg" className="shrink-0 bg-caramel text-ink hover:bg-caramel/90">
+                <Button type="submit" size="lg" variant="caramel" className="shrink-0">
                   {dict.home.newsletter.cta}
                   <ArrowRight className="size-4" />
                 </Button>

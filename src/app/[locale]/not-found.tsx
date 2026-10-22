@@ -14,7 +14,7 @@ export default function NotFound() {
 
   return (
     <Container className="flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
-      <p className="font-display text-7xl font-semibold text-accent/30">404</p>
+      <p className="font-display text-7xl font-semibold text-accent">404</p>
       <h1 className="display-md mt-4">{dict.notFound.title}</h1>
       <p className="mt-3 max-w-md text-ink-soft">{dict.notFound.text}</p>
       <Link href={`/${locale}/menu`} className={buttonStyles({ className: "mt-8" })}>

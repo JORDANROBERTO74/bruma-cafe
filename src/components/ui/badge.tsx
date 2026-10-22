@@ -13,7 +13,7 @@ export function Badge({
   const tones = {
     neutral: "bg-ink/5 text-ink-soft",
     accent: "bg-accent/10 text-accent",
-    olive: "bg-olive/15 text-olive",
+    olive: "bg-olive/15 text-olive-deep",
     caramel: "bg-caramel/25 text-ink",
   };
 
