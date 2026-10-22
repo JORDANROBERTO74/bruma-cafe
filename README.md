@@ -45,7 +45,7 @@ scripts/
 - `src/i18n/config.ts` defines the locales and the default (`en`).
 - Copy lives in `src/i18n/dictionaries/{en,es}.ts`; the English file is typed as
   the source of truth, so a missing Spanish key fails type checking.
-- `src/middleware.ts` resolves `/` to the browser-preferred locale, falls back
+- `src/proxy.ts` resolves `/` to the browser-preferred locale, falls back
   to English, and stores the choice in `NEXT_LOCALE`.
 - Every page declares canonical and `hreflang` alternates.
 
@@ -76,6 +76,22 @@ Change those values the store relocates: prices, shipping and formatting follow.
 `scripts/generate-art.mjs`. They are placeholders for photography: replace the
 files keeping the same names and the layout adapts. All images are local; the
 site makes no third-party image requests.
+
+## Deployment
+
+A standard Next.js app: no `vercel.json` is required.
+
+1. Import the repository in the Vercel dashboard and keep the detected defaults
+   (`pnpm install`, `pnpm build`, output `.next`).
+2. Set `NEXT_PUBLIC_SITE_URL` to the production origin, for example
+   `https://bruma-cafe.vercel.app`. Canonical links, `hreflang`, `sitemap.xml`,
+   `robots.txt` and the Open Graph image URLs are derived from it; the build
+   falls back to `https://brumacafe.com` when the variable is absent.
+3. Deploy, then verify `/{en,es}`, `/sitemap.xml`, `/robots.txt`,
+   `/{en,es}/opengraph-image` and a full checkout run on the deployed build.
+
+Adding a custom domain later means updating `NEXT_PUBLIC_SITE_URL` and
+`site.domain` together so the metadata stays consistent.
 
 ## License
 
