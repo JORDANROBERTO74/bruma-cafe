@@ -14,7 +14,7 @@ export function Story({ locale, dict }: { locale: Locale; dict: Dictionary }) {
         <div className="relative order-2 lg:order-1">
           <div className="relative aspect-square overflow-hidden rounded-[2rem] bg-paper-deep">
             <Image
-              src="/images/origin.svg"
+              src="/images/origin.webp"
               alt={dict.home.story.title}
               fill
               sizes="(max-width: 1024px) 90vw, 520px"

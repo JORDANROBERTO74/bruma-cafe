@@ -10,7 +10,7 @@ export type Category = {
 export const categories: Category[] = [
   {
     id: "coffee",
-    image: "/images/category-coffee.svg",
+    image: "/images/category-coffee.webp",
     name: { en: "Coffee", es: "Café" },
     description: {
       en: "Single-origin lots and our house blend.",
@@ -19,7 +19,7 @@ export const categories: Category[] = [
   },
   {
     id: "espresso",
-    image: "/images/category-espresso.svg",
+    image: "/images/category-espresso.webp",
     name: { en: "Espresso", es: "Espresso" },
     description: {
       en: "Darker profiles built for pressure.",
@@ -28,7 +28,7 @@ export const categories: Category[] = [
   },
   {
     id: "decaf",
-    image: "/images/category-decaf.svg",
+    image: "/images/category-decaf.webp",
     name: { en: "Decaf", es: "Descafeinado" },
     description: {
       en: "All the flavor, none of the buzz.",
@@ -37,7 +37,7 @@ export const categories: Category[] = [
   },
   {
     id: "gear",
-    image: "/images/category-gear.svg",
+    image: "/images/category-gear.webp",
     name: { en: "Brew gear", es: "Equipo" },
     description: {
       en: "Simple tools that last a lifetime.",
@@ -46,7 +46,7 @@ export const categories: Category[] = [
   },
   {
     id: "gifts",
-    image: "/images/category-gifts.svg",
+    image: "/images/category-gifts.webp",
     name: { en: "Gifts", es: "Regalos" },
     description: {
       en: "Boxes for the coffee people in your life.",
