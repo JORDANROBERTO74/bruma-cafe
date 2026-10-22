@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 250" width="800" height="1000" role="img">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#FAF5EE"/>
+      <stop offset="1" stop-color="#F1E8DB"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.75" cy="0.2" r="0.7">
+      <stop offset="0" stop-color="#6E7A52" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#6E7A52" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.055"/></feComponentTransfer>
+    </filter>
+  </defs>
+
+  <rect width="200" height="250" fill="url(#bg)"/>
+  <rect width="200" height="250" fill="url(#glow)"/>
+
+  <g stroke="#6E7A52" fill="none" opacity="0.3">
+    <circle cx="168" cy="42" r="34"/>
+    <circle cx="168" cy="42" r="46"/>
+    <circle cx="168" cy="42" r="58"/>
+  </g>
+  <rect x="0" y="0" width="200" height="250" filter="url(#grain)" opacity="0.7"/>
+  
+  <g opacity="0.9">
+    <circle cx="132" cy="96" r="34" fill="#6E7A52" opacity="0.9"/>
+    <path d="M0 210 C 40 160, 70 168, 104 196 C 140 226, 176 150, 200 176 L200 250 L0 250 Z" fill="#201713" opacity="0.16"/>
+    <path d="M0 224 C 46 190, 82 200, 112 218 C 148 240, 172 196, 200 206 L200 250 L0 250 Z" fill="#201713" opacity="0.26"/>
+    <g stroke="#201713" stroke-width="1.4" opacity="0.35">
+      <path d="M12 236 C 50 214, 88 222, 120 236"/>
+      <path d="M6 246 C 52 228, 96 234, 132 246"/>
+    </g>
+    <g fill="#6E7A52">
+      <circle cx="46" cy="206" r="4.2"/>
+      <circle cx="56" cy="212" r="4.2"/>
+      <circle cx="150" cy="196" r="4.2"/>
+      <circle cx="160" cy="202" r="4.2"/>
+    </g>
+  </g>
+  
+      <g transform="translate(18 22) rotate(-18) scale(1.04)">
+        <ellipse rx="5.4" ry="8.2" fill="#6E7A52" opacity="0.75"/>
+        <path d="M0 -8 C 2 -3, 2 3, 0 8" stroke="#FAF5EE" stroke-width="1.1" fill="none" opacity="0.85"/>
+      </g>
+      <g transform="translate(88 68) rotate(-28) scale(0.92)">
+        <ellipse rx="5.4" ry="8.2" fill="#6E7A52" opacity="0.75"/>
+        <path d="M0 -8 C 2 -3, 2 3, 0 8" stroke="#FAF5EE" stroke-width="1.1" fill="none" opacity="0.85"/>
+      </g>
+      <g transform="translate(64 84) rotate(8) scale(0.8)">
+        <ellipse rx="5.4" ry="8.2" fill="#6E7A52" opacity="0.75"/>
+        <path d="M0 -8 C 2 -3, 2 3, 0 8" stroke="#FAF5EE" stroke-width="1.1" fill="none" opacity="0.85"/>
+      </g>
+  <rect x="12" y="234" width="24" height="2.5" fill="#6E7A52"/>
+</svg>
