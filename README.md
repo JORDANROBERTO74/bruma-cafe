@@ -1,32 +1,85 @@
 # Bruma Café
 
-A bilingual storefront for a small-batch Bolivian coffee roaster. Built as a
-clean, original implementation: no page templates, no copied assets.
+A bilingual storefront for a small-batch Bolivian coffee roaster, built as an original implementation with no page templates or copied assets.
 
-**Stack:** Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · Zod
-**Locales:** English (default) and Spanish, with browser-language detection
-**Market:** United States (USD) — swap one file to change region and currency
+![Bruma Café home page in English, with the headline "Coffee with a sense of place", a roast photograph and five category tiles](docs/screenshot.webp)
 
-## Getting started
+## What it is
+
+Bruma is a complete front-end storefront: home, catalog with categories, product pages, a persistent cart, a simulated checkout, order confirmation and legal pages, in English and Spanish.
+
+It is a demo, not a shop. There is no payment provider, backend, inventory or email service: checkout validates the form with Zod and produces an order reference locally, and no card data is collected or stored.
+
+## Why this over a store template
+
+- **Clean-room build.** Layout, copy, palette and artwork were written for this project; no page template, copied class names or stock assets.
+- **Bilingual by default.** `/[locale]` routes, typed dictionaries, automatic browser-language detection, a manual switcher, localized prices and dates, and `hreflang` alternates.
+- **Market rules in one file.** Currency, formatting, flat shipping, the free-shipping threshold and the coupon live in `src/config/region.ts`.
+- **No remote media.** All 16 product and editorial images are local WebP files generated for the brand, so the page makes no third-party image requests.
+- **Small dependency surface.** Next.js, React, Tailwind CSS and Zod. No UI kit, no cart library, no state manager.
+
+## Quick start
+
+Requirements: Node.js 24 (see `.nvmrc`) and pnpm 11.
 
 ```bash
+git clone https://github.com/JORDANROBERTO74/bruma-cafe.git
+cd bruma-cafe
 pnpm install
 pnpm dev
 ```
 
-Open http://localhost:3000. The middleware redirects to `/en` or `/es`
-depending on your browser language and remembers the choice in a cookie.
+Open <http://localhost:3000>. The proxy redirects to `/en` or `/es` based on your browser's `Accept-Language` and remembers an explicit choice in a cookie.
 
-```bash
-pnpm lint        # ESLint
-pnpm typecheck   # tsc --noEmit
-pnpm build       # production build
-pnpm start       # serve the production build
+| Command | What it does |
+| --- | --- |
+| `pnpm dev` | Start the development server on port 3000 |
+| `pnpm build` | Create an optimized production build |
+| `pnpm start` | Serve the production build |
+| `pnpm lint` | Run ESLint |
+| `pnpm typecheck` | Run `tsc --noEmit` |
+
+## Internationalization
+
+Copy lives in `src/i18n/dictionaries/en.ts` and `es.ts`. The English file defines the `Dictionary` type, so a missing or misspelled key in Spanish fails `pnpm typecheck` instead of rendering a blank label.
+
+- `src/i18n/config.ts` lists the supported locales and the default (`en`).
+- `src/proxy.ts` detects the locale and redirects `/` to `/{locale}`.
+- `src/lib/format.ts` centralizes `Intl` formatting for prices, dates and percentages.
+- Every page declares canonical and `hreflang` alternates from `src/lib/seo.ts`.
+
+## Region and currency
+
+All market rules live in `src/config/region.ts`:
+
+```ts
+export const region = {
+  id: "us",
+  currency: "USD",
+  locale: "en-US",
+  shippingFlat: 600, // $6.00 in minor units
+  freeShippingThreshold: 6000, // free over $60
+  coupon: { code: "BRUMA10", percent: 10 },
+} as const;
 ```
+
+Prices are stored in minor units. Change those values and the store relocates: formatting, discounts and shipping follow. The coupon field on the cart accepts `BRUMA10` for 10% off.
+
+## Cart and checkout
+
+- Cart state is a reducer persisted to `localStorage` (`bruma.cart.v1`).
+- Totals, discount and shipping are pure functions in `src/lib/cart.ts`.
+- Checkout validates with Zod and is intentionally simulated: no payment provider is called and no card data is stored.
+- The order is kept in `sessionStorage` (`bruma.order.v1`) only to render the confirmation page.
+- The newsletter form is client-side only and does not submit anywhere.
+
+## Artwork
+
+`public/images/*.webp` are AI-generated photographs produced with `flux-2-klein-4b` through the local `image-forge` tool. The hero and product shots use a 4:5 frame at 1024 px wide; category tiles are square. Every scene was produced with image-to-image, keeps the cream, terracotta and olive palette of the brand, and carries no lettering or logos.
 
 ## Project structure
 
-```
+```text
 src/
   app/[locale]/          routes: home, menu, product, cart, checkout, order, legal
   components/            layout, home, product, cart, checkout, ui primitives
@@ -36,63 +89,26 @@ src/
   lib/                   cart reducer, totals, formatting, SEO, order helpers
   providers/             cart context with localStorage persistence
   types/                 shared domain types
+docs/
+  screenshot.webp
 ```
-
-## Internationalization
-
-- `src/i18n/config.ts` defines the locales and the default (`en`).
-- Copy lives in `src/i18n/dictionaries/{en,es}.ts`; the English file is typed as
-  the source of truth, so a missing Spanish key fails type checking.
-- `src/proxy.ts` resolves `/` to the browser-preferred locale, falls back
-  to English, and stores the choice in `NEXT_LOCALE`.
-- Every page declares canonical and `hreflang` alternates.
-
-## Region and currency
-
-All market rules live in `src/config/region.ts`:
-
-```ts
-currency: "USD"
-locale: "en-US"
-shippingFlat: 600            // $6.00 in cents
-freeShippingThreshold: 6000  // free over $60
-```
-
-Change those values the store relocates: prices, shipping and formatting follow.
-
-## Cart and checkout
-
-- Cart state is a reducer persisted to `localStorage` (`bruma.cart.v1`).
-- Totals (discount, shipping, tax-free total) are pure functions in `src/lib/cart.ts`.
-- Checkout validates with Zod and is intentionally simulated: no payment
-  provider is called and no card data is stored.
-- Orders are kept in `sessionStorage` only to render the confirmation page.
-
-## Artwork
-
-`public/images/*.webp` are AI-generated photographs produced with Cloudflare
-Workers AI (`flux-2-klein-4b`) through the local `image-forge` tool. The hero and
-product shots use a 4:5 frame at 1024 px wide; category tiles are square. Every
-scene was produced with image-to-image, keeps the cream, terracotta and olive
-palette of the brand, and carries no lettering or logos. All images are local:
-the site makes no third-party image requests.
 
 ## Deployment
 
-A standard Next.js app: no `vercel.json` is required.
+The app uses the default Vercel Next.js preset; no `vercel.json` is required.
 
-1. Import the repository in the Vercel dashboard and keep the detected defaults
-   (`pnpm install`, `pnpm build`, output `.next`).
-2. Set `NEXT_PUBLIC_SITE_URL` to the production origin, for example
-   `https://bruma-cafe.vercel.app`. Canonical links, `hreflang`, `sitemap.xml`,
-   `robots.txt` and the Open Graph image URLs are derived from it; the build
-   falls back to `https://brumacafe.com` when the variable is absent.
-3. Deploy, then verify `/{en,es}`, `/sitemap.xml`, `/robots.txt`,
-   `/{en,es}/opengraph-image` and a full checkout run on the deployed build.
+1. Import the repository and keep the detected settings (`pnpm install`, `pnpm build`, output `.next`).
+2. Set `NEXT_PUBLIC_SITE_URL` to the production origin.
+3. Deploy, then verify `/{en,es}`, `/sitemap.xml`, `/robots.txt`, the Open Graph images and a full checkout run.
 
-Adding a custom domain later means updating `NEXT_PUBLIC_SITE_URL` and
-`site.domain` together so the metadata stays consistent.
+`NEXT_PUBLIC_SITE_URL` drives canonical links, `hreflang`, `sitemap.xml`, `robots.txt` and Open Graph URLs. When it is unset, the code falls back to `https://brumacafe.com`; the public demo sets it to its Vercel origin.
+
+Live demo: <https://bruma-cafe-gamma.vercel.app>
+
+## Status and scope
+
+This is a portfolio reference implementation, maintained but not production-ready for real orders. There is no persistence beyond the browser, no authentication and no payment integration. Verification covers `pnpm lint`, `pnpm typecheck`, `pnpm build` and a manual checkout pass in both locales at desktop and mobile widths.
 
 ## License
 
-Proprietary. All rights reserved. See `LICENSE`.
+Proprietary, all rights reserved. See [LICENSE](LICENSE). Third-party dependencies remain under their own licenses.
